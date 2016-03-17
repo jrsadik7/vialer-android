@@ -8,13 +8,11 @@ import java.util.List;
 public class SyncContact {
     private long contactId;
     private String displayName;
-    private List<String> normalizedPhoneNumbers;
     private List<String> phoneNumbers;
 
-    public SyncContact(long contactId, String displayName, List<String> normalizedPhoneNumbers, List<String> phoneNumbers) {
+    public SyncContact(long contactId, String displayName, List<String> phoneNumbers) {
         setContactId(contactId);
         setDisplayName(displayName);
-        setNormalizedPhoneNumbers(normalizedPhoneNumbers);
         setPhoneNumbers(phoneNumbers);
     }
 
@@ -32,14 +30,6 @@ public class SyncContact {
 
     private void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public List<String> getNormalizedPhoneNumbers() {
-        return normalizedPhoneNumbers;
-    }
-
-    private void setNormalizedPhoneNumbers(List<String> normalizedPhoneNumbers) {
-        this.normalizedPhoneNumbers = normalizedPhoneNumbers;
     }
 
     public List<String> getPhoneNumbers() {

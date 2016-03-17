@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.content.AsyncTaskLoader;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * AsyncTaskLoader for loading t9 matches.
@@ -146,6 +147,9 @@ public class ContactCursorLoader extends AsyncTaskLoader<Cursor> {
                 null,
                 sortOrder
         );
+
+        Log.d("HALLO", selection);
+        Log.d("HALLO", "" + dataCursor.getCount());
 
         // Populate a new cursor that is UI friendly.
         populateMaxtrixCursor(dataCursor, mT9Query);

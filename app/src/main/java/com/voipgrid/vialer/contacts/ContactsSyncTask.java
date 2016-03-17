@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.voipgrid.vialer.t9.T9DatabaseHelper;
 
@@ -125,27 +126,10 @@ public class ContactsSyncTask {
                 continue;
             }
 
-            List<String> normalizedPhoneNumbers = new ArrayList<>();
-            String normalizedPhoneNumber;
             List<String> phoneNumbers = new ArrayList<>();
             String phoneNumber;
 
             while (phones.moveToNext()) {
-                normalizedPhoneNumber = getColumnFromCursor(
-                        ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER,
-                        phones
-                );
-
-                // We do not want to synchronize null numbers.
-                if (normalizedPhoneNumber == null){
-                    continue;
-                }
-
-                // Avoid duplicate phone numbers.
-                if (!normalizedPhoneNumbers.contains(normalizedPhoneNumber)){
-                    normalizedPhoneNumbers.add(normalizedPhoneNumber);
-                }
-
                 phoneNumber = getColumnFromCursor(
                         ContactsContract.CommonDataKinds.Phone.NUMBER,
                         phones
@@ -165,13 +149,12 @@ public class ContactsSyncTask {
             phones.close();
 
             // Found no normalized phone numbers so don't sync the contact.
-            if (normalizedPhoneNumbers.size() <= 0){
+            if (phoneNumbers.size() <= 0){
                 continue;
             }
             SyncContact syncContact = new SyncContact(
                     contactId,
                     name,
-                    normalizedPhoneNumbers,
                     phoneNumbers
             );
 
