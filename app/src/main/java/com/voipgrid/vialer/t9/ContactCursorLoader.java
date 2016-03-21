@@ -10,6 +10,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * AsyncTaskLoader for loading t9 matches.
  */
@@ -126,7 +128,26 @@ public class ContactCursorLoader extends AsyncTaskLoader<Cursor> {
 
         // Setup database handler.
         T9DatabaseHelper t9Database = new T9DatabaseHelper(mContext);
-        Object[] contactIdMatches = t9Database.getT9ContactIdMatches(mT9Query).toArray();
+        ArrayList<T9DatabaseMatch> contactMatches = t9Database.getT9ContactIdMatches(mT9Query);
+        ArrayList<String> contactIdMatches = new ArrayList<>();
+        T9DatabaseMatch match;
+
+        for (int i = 0; i < contactMatches.size(); i++) {
+            match = contactMatches.get(i);
+            Uri lookupUri = ContactsContract.Contacts.getLookupUri(match.getContactId(), match.getLookupKey());
+            Uri contentUri = ContactsContract.Contacts.lookupContact(
+                    mContext.getContentResolver(), lookupUri);
+            Cursor contact = mContext.getContentResolver().query(
+                    contentUri, new String[]{ContactsContract.Contacts._ID},
+                    null, null, null);
+
+            if (contact.moveToFirst()) {
+                long contactId = contact.getInt(contact.getColumnIndex(ContactsContract.Contacts._ID));
+                Log.d("HALLO", "WORKS");
+                contactIdMatches.add(Long.toString(contactId));
+            }
+
+        }
 
         String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " IN " + "(" + TextUtils.join(", ", contactIdMatches) + ")";
 
@@ -147,9 +168,6 @@ public class ContactCursorLoader extends AsyncTaskLoader<Cursor> {
                 null,
                 sortOrder
         );
-
-        Log.d("HALLO", selection);
-        Log.d("HALLO", "" + dataCursor.getCount());
 
         // Populate a new cursor that is UI friendly.
         populateMaxtrixCursor(dataCursor, mT9Query);

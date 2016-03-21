@@ -6,9 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.voipgrid.vialer.contacts.SyncContact;
+import com.voipgrid.vialer.contacts.SyncUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +19,16 @@ import java.util.List;
  * Helper class for accessing the t9 contact database.
  */
 public class T9DatabaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "t9.db";
 
     private static final int MAX_RESULTS = 20;
 
+    private Context mContext;
+
     public T9DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
     }
 
     /**
@@ -39,6 +44,7 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
     public interface T9ContactColumns extends BaseColumns {
         String T9_QUERY = "t9_query";
         String CONTACT_ID = "contact_id";
+        String LOOKUP_KEY = "lookup_key";
         String LAST_UPDATED = "last_updated";
     }
 
@@ -52,6 +58,7 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
         // Data is re-creatable so it is safe to drop the db on an upgrade.
         dropTables(db);
         onCreate(db);
+        SyncUtils.setRequiresFullContactSync(mContext, true);
     }
 
     @Override
@@ -68,6 +75,7 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + Tables.T9_CONTACT + " (" +
                 T9ContactColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 T9ContactColumns.T9_QUERY + " TEXT COLLATE NOCASE, " +
+                T9ContactColumns.LOOKUP_KEY + " TEXT, " +
                 T9ContactColumns.CONTACT_ID + " INTEGER," +
                 T9ContactColumns.LAST_UPDATED + " LONG " +
                 ");");
@@ -75,6 +83,9 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
         // Set indexes.
         db.execSQL("CREATE INDEX IF NOT EXISTS t9_query_index ON " +
                 Tables.T9_CONTACT + " (" + T9ContactColumns.T9_QUERY + ");");
+
+        db.execSQL("CREATE INDEX IF NOT EXISTS t9_lookup_key_index ON " +
+                Tables.T9_CONTACT + " (" + T9ContactColumns.LOOKUP_KEY + ");");
 
         db.execSQL("CREATE INDEX IF NOT EXISTS t9_contact_id_index ON " +
                 Tables.T9_CONTACT + " (" + T9ContactColumns.CONTACT_ID + ");");
@@ -113,8 +124,8 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
      */
     public void insertT9Contact(SyncContact syncContact) {
         SQLiteDatabase db = getReadableDatabase();
-        insertDisplayNameQuery(db, syncContact.getContactId(), syncContact.getDisplayName());
-        insertPhoneNumberQueries(db, syncContact.getContactId(), syncContact.getPhoneNumbers());
+        insertDisplayNameQuery(db, syncContact);
+        insertPhoneNumberQueries(db, syncContact);
         db.close();
     }
 
@@ -146,17 +157,21 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
      * @param contactId Id of the contact to insert for.
      * @param phoneNumbers List of phone numbers to insert queries for.
      */
-    private void insertPhoneNumberQueries(SQLiteDatabase db, long contactId, List<String> phoneNumbers) {
+    private void insertPhoneNumberQueries(SQLiteDatabase db, SyncContact syncContact) {
         try {
             final String numberSqlInsert = "INSERT INTO " + Tables.T9_CONTACT + " (" +
                     T9ContactColumns.CONTACT_ID + ", " +
+                    T9ContactColumns.LOOKUP_KEY + ", " +
                     T9ContactColumns.T9_QUERY  + ") " +
-                    " VALUES (?, ?)";
+                    " VALUES (?, ?, ?)";
             final SQLiteStatement numberInsert = db.compileStatement(numberSqlInsert);
 
+            List<String> phoneNumbers = syncContact.getPhoneNumbers();
+
             for (int i = 0; i < phoneNumbers.size(); i++) {
-                numberInsert.bindLong(1, contactId);
-                numberInsert.bindString(2, phoneNumbers.get(i));
+                numberInsert.bindLong(1, syncContact.getContactId());
+                numberInsert.bindString(2, syncContact.getLookupKey());
+                numberInsert.bindString(3, phoneNumbers.get(i));
                 numberInsert.executeInsert();
                 numberInsert.clearBindings();
             }
@@ -171,19 +186,21 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
      * @param contactId Id of the contact to insert for.
      * @param displayName The display name to insert t9 queries for.
      */
-    private void insertDisplayNameQuery(SQLiteDatabase db, long contactId, String displayName) {
+    private void insertDisplayNameQuery(SQLiteDatabase db, SyncContact syncContact) {
         try {
             final String sqlInsert = "INSERT INTO " + Tables.T9_CONTACT + " (" +
                     T9ContactColumns.CONTACT_ID + ", " +
+                    T9ContactColumns.LOOKUP_KEY + ", " +
                     T9ContactColumns.T9_QUERY  + ") " +
-                    " VALUES (?, ?)";
+                    " VALUES (?, ?, ?)";
             final SQLiteStatement insert = db.compileStatement(sqlInsert);
 
             // Computes a list of prefixes of a given contact name.
-            ArrayList<String> T9NameQueries = T9Query.generateT9NameQueries(displayName);
+            ArrayList<String> T9NameQueries = T9Query.generateT9NameQueries(syncContact.getDisplayName());
             for (String T9NameQuery : T9NameQueries) {
-                insert.bindLong(1, contactId);
-                insert.bindString(2, T9NameQuery);
+                insert.bindLong(1, syncContact.getContactId());
+                insert.bindString(2, syncContact.getLookupKey());
+                insert.bindString(3, T9NameQuery);
                 insert.executeInsert();
                 insert.clearBindings();
             }
@@ -197,8 +214,8 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
      * @param T9Query
      * @return
      */
-    public ArrayList<Long> getT9ContactIdMatches(String T9Query) {
-        ArrayList<Long> matches = new ArrayList<>();
+    public ArrayList<T9DatabaseMatch> getT9ContactIdMatches(String T9Query) {
+        ArrayList<T9DatabaseMatch> matches = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
 
         if (db == null) {
@@ -210,10 +227,11 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
         String prefixQuery = T9Query + "%";
 
         // Query to select contact id's that have a query that starts with prefixQuery.
-        Cursor cursor = db.rawQuery("SELECT " + T9ContactColumns.CONTACT_ID +
-            " FROM " +  Tables.T9_CONTACT +
-            " WHERE " + Tables.T9_CONTACT + "." + T9ContactColumns.T9_QUERY +
-            " LIKE '" + prefixQuery + "'", null);
+        Cursor cursor = db.rawQuery("SELECT " +
+                T9ContactColumns.CONTACT_ID + ", " + T9ContactColumns.LOOKUP_KEY +
+                " FROM " +  Tables.T9_CONTACT +
+                " WHERE " + Tables.T9_CONTACT + "." + T9ContactColumns.T9_QUERY +
+                " LIKE '" + prefixQuery + "'", null);
 
         if (cursor == null) {
             return matches;
@@ -222,11 +240,15 @@ public class T9DatabaseHelper extends SQLiteOpenHelper {
         // Loop results and add them to matches.
         while ((cursor.moveToNext()) && (matches.size() < MAX_RESULTS)) {
             long contactId = cursor.getLong(0);  // we only select 1 column so get the first one
+            String lookupKey = cursor.getString(1);
+
+            T9DatabaseMatch match = new T9DatabaseMatch(contactId, lookupKey);
+
             // We do not want duplicates.
-            if (matches.contains(contactId)) {
+            if (matches.contains(match)) {
                 continue;
             }
-            matches.add(contactId);
+            matches.add(match);
         }
 
         // Close resources.

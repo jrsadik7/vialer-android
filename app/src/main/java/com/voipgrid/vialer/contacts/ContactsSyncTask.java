@@ -115,6 +115,8 @@ public class ContactsSyncTask {
 
         while (cursor.moveToNext()) {
             long contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            String lookupKey =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
             String name = getColumnFromCursor(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
                     cursor);
 
@@ -154,6 +156,7 @@ public class ContactsSyncTask {
             }
             SyncContact syncContact = new SyncContact(
                     contactId,
+                    lookupKey,
                     name,
                     phoneNumbers
             );

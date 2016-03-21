@@ -21,7 +21,7 @@ import java.util.List;
 public class ContactsManager {
 
     private static final String LOG_TAG = ContactsManager.class.getName();
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /**
      *
@@ -48,6 +48,8 @@ public class ContactsManager {
         if (DEBUG) {
             Log.d(LOG_TAG, "Syncing contact with id " +
                     Long.toString(syncContact.getContactId()) +
+                    ", lookupkey " +
+                    syncContact.getLookupKey() +
                     " and name " +
                     syncContact.getDisplayName());
         }
