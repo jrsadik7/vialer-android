@@ -35,6 +35,7 @@ import org.pjsip.pjsua2.CodecInfo;
 import org.pjsip.pjsua2.CodecInfoVector;
 import org.pjsip.pjsua2.Endpoint;
 import org.pjsip.pjsua2.EpConfig;
+import org.pjsip.pjsua2.MediaConfig;
 import org.pjsip.pjsua2.OnRegStateParam;
 import org.pjsip.pjsua2.TransportConfig;
 import org.pjsip.pjsua2.pjmedia_type;
@@ -347,8 +348,27 @@ public class SipService extends Service implements
                                     TransportConfig transportConfig) {
         Endpoint endpoint = new Endpoint();
         try {
+
+            EpConfig epConfig = new EpConfig();
+            MediaConfig mediaConfig = epConfig.getMedConfig();
+            mediaConfig.setSndAutoCloseTime(1);
+            // EXc options are:
+            // 0 DEFAULT: Use any available backend echo canceller algorithm.
+            // 1 SPEEX: Force to use Speex AEC as the backend echo canceller algorithm.
+            // 2 SIMPLE: If PJMEDIA_ECHO_SIMPLE flag is specified during echo canceller creation,
+            //           then a simple echo suppressor will be used instead of an accoustic echo
+            //           cancellation.
+            //
+            // For other see:
+            // http://www.pjsip.org/pjmedia/docs/html/group__PJMEDIA__Echo__Cancel.htm#gaa92df3d6726a21598e25bf5d4a23897e
+            // http://www.pjsip.org/docs/book-latest/html/endpoint.html#media
+            //
+            mediaConfig.setEcOptions(2);
+            mediaConfig.setEcTailLen(100);
+            epConfig.setMedConfig(mediaConfig);
+
             endpoint.libCreate();
-            endpoint.libInit(new EpConfig());
+            endpoint.libInit(epConfig);
             endpoint.transportCreate(transportType, transportConfig);
             endpoint.libStart();
         } catch (Exception exception) {
