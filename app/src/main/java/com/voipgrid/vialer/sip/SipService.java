@@ -351,7 +351,6 @@ public class SipService extends Service implements
 
             EpConfig epConfig = new EpConfig();
             MediaConfig mediaConfig = epConfig.getMedConfig();
-            mediaConfig.setSndAutoCloseTime(1);
             // EXc options are:
             // 0 DEFAULT: Use any available backend echo canceller algorithm.
             // 1 SPEEX: Force to use Speex AEC as the backend echo canceller algorithm.
@@ -363,7 +362,7 @@ public class SipService extends Service implements
             // http://www.pjsip.org/pjmedia/docs/html/group__PJMEDIA__Echo__Cancel.htm#gaa92df3d6726a21598e25bf5d4a23897e
             // http://www.pjsip.org/docs/book-latest/html/endpoint.html#media
             //
-            mediaConfig.setEcOptions(2);
+            mediaConfig.setEcOptions(0);
             mediaConfig.setEcTailLen(100);
             epConfig.setMedConfig(mediaConfig);
 
