@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.voipgrid.vialer.CallActivity;
 import com.voipgrid.vialer.R;
@@ -62,7 +63,8 @@ import retrofit2.Response;
 public class SipService extends Service implements
         AccountStatus,
         CallStatus,
-        CallInteraction {
+        CallInteraction,
+        AudioManager.OnAudioFocusChangeListener{
 
     private final static String TAG = SipService.class.getSimpleName(); // TAG used for debug Logs
 
@@ -152,9 +154,10 @@ public class SipService extends Service implements
         mHandler = new Handler();
 
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+//        audioManager.requestAudioFocus(this, AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN);
         mToneGenerator = new ToneGenerator(
-                AudioManager.STREAM_MUSIC,
-                audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+                AudioManager.STREAM_VOICE_CALL,
+                audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL));
 
         mBroadcastManager = LocalBroadcastManager.getInstance(this);
 
@@ -463,6 +466,8 @@ public class SipService extends Service implements
     @Override
     public void onCallStopRingback() {
         mHandler.removeCallbacks(mRingbackRunnable);
+        mToneGenerator.stopTone();
+        mToneGenerator.release();
     }
 
     private void callVisibleForUser(Call call, String type, Uri number) {
@@ -599,5 +604,24 @@ public class SipService extends Service implements
 
     private Call getCurrentCall() {
         return mCall;
+    }
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        Log.d("HALLO", "" + focusChange);
+        switch (focusChange) {
+            case AudioManager.AUDIOFOCUS_GAIN:
+                // resume playback
+                break;
+
+            case AudioManager.AUDIOFOCUS_LOSS:
+                break;
+
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                break;
+
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                break;
+        }
     }
 }
