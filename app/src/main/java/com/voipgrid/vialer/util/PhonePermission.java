@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog;
 import com.voipgrid.vialer.R;
 
 /**
- * Created by marco on 4/21/16.
+ * Class that handles asking for the phone permissions.
  */
 public class PhonePermission {
 
@@ -28,7 +28,7 @@ public class PhonePermission {
     };
 
     /**
-     * Function to check if the we have the microphone permission.
+     * Function to check if the we have the phone permission.
      * @param context Context needed for the check.
      * @return Whether or not we have permission.
      */
@@ -53,9 +53,9 @@ public class PhonePermission {
         final int requestCode = activity.getResources().getInteger(
                 R.integer.phone_permission_request_code);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Phone permissions");
-        builder.setMessage("We need these permissions to monitor incoming calls on" +
-                "your cellphone and act accordingly on the sip calls.");
+        builder.setTitle(activity.getResources().getString(R.string.permission_phone_dialog_title));
+        builder.setMessage(
+                activity.getResources().getString(R.string.permission_phone_dialog_message));
         builder.setPositiveButton(activity.getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -68,7 +68,7 @@ public class PhonePermission {
     }
 
     /**
-     * Function to ask the user for the microphone permissions.
+     * Function to ask the user for the phone permissions.
      * @param activity The activity where to show the permissions dialogs.
      */
     public static void askForPermission(final Activity activity) {

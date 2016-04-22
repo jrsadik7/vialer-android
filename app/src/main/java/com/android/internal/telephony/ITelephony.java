@@ -1,7 +1,7 @@
 package com.android.internal.telephony;
 
 /**
- * Created by marco on 4/21/16.
+ * Required for end GSM call hack.
  */
 public interface ITelephony {
     boolean endCall();
