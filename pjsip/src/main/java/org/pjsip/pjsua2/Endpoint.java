@@ -251,13 +251,16 @@ public class Endpoint {
     pjsua2JNI.Endpoint_videoCodecSetPriority(swigCPtr, this, codec_id, priority);
   }
 
-  public SWIGTYPE_p_void videoCodecGetParam(String codec_id) throws java.lang.Exception {
-    long cPtr = pjsua2JNI.Endpoint_videoCodecGetParam(swigCPtr, this, codec_id);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+  public VidCodecParam getVideoCodecParam(String codec_id) throws java.lang.Exception {
+    return new VidCodecParam(pjsua2JNI.Endpoint_getVideoCodecParam(swigCPtr, this, codec_id), true);
   }
 
-  public void videoCodecSetParam(String codec_id, SWIGTYPE_p_void param) throws java.lang.Exception {
-    pjsua2JNI.Endpoint_videoCodecSetParam(swigCPtr, this, codec_id, SWIGTYPE_p_void.getCPtr(param));
+  public void setVideoCodecParam(String codec_id, VidCodecParam param) throws java.lang.Exception {
+    pjsua2JNI.Endpoint_setVideoCodecParam(swigCPtr, this, codec_id, VidCodecParam.getCPtr(param), param);
+  }
+
+  public void resetVideoCodecParam(String codec_id) throws java.lang.Exception {
+    pjsua2JNI.Endpoint_resetVideoCodecParam(swigCPtr, this, codec_id);
   }
 
   public void onNatDetectionComplete(OnNatDetectionCompleteParam prm) {

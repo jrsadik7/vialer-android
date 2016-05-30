@@ -158,5 +158,5 @@ public interface SipConstants {
     // Input verbosity level. Value 5 is reasonable.
     int SIP_LOG_LEVEL = 10;
     // For PJSIP debugging purpose 4 is a reasonable value.
-    int SIP_CONSOLE_LOG_LEVEL = 4;
+    int SIP_CONSOLE_LOG_LEVEL = 5;
 }

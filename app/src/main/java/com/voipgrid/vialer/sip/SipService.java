@@ -387,19 +387,20 @@ public class SipService extends Service implements
 
     /**
      * Try to load PJSIP library. If the app can not load PJSIP the service stops since it can
-     * not use SIP to setup phonecalls.
+     * not use SIP to setup phone calls.
      *
      * @throws UnsatisfiedLinkError
      */
     private void loadPjsip() {
-        /* Try to load PJSIP library */
+        // Try to load PJSIP library
         try {
             System.loadLibrary("pjsua2");
-        } catch (UnsatisfiedLinkError error) { /* Can not load PJSIP library */
+        } catch (UnsatisfiedLinkError error) {
+            // Can not load PJSIP library
             Log.e(TAG, error.getMessage());
-            /* Notify app */
+            // Notify app
             broadcast(SipConstants.SIP_SERVICE_CAN_NOT_LOAD_PJSIP);
-            /* Stop the service since the app can not use SIP */
+            // Stop the service since the app can not use SIP
             stopSelf();
         }
     }
@@ -409,11 +410,15 @@ public class SipService extends Service implements
         Endpoint endpoint = new Endpoint();
         EpConfig endpointConfig = new EpConfig();
 
+        Log.e("SADFASDF", Long.toString(endpointConfig.getMedConfig().getEcTailLen()));
+
         // Set echo cancellation options for endpoint.
         MediaConfig mediaConfig = endpointConfig.getMedConfig();
         mediaConfig.setEcOptions(SipConstants.WEBRTC_ECHO_CANCELLATION);
         mediaConfig.setEcTailLen(SipConstants.ECHO_CANCELLATION_TAIL_LENGTH);
         endpointConfig.setMedConfig(mediaConfig);
+
+        Log.e("ASFDDASF", Long.toString(endpointConfig.getMedConfig().getEcOptions()));
 
         try {
             endpoint.libCreate();
