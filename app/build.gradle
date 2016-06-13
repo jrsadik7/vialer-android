@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.voipgrid.app"
         minSdkVersion 16
@@ -16,9 +16,13 @@ android {
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    dexOptions {
+        // Prevent OutOfMemory with MultiDex during the build phase
+        javaMaxHeapSize "4g"
+    }
     productFlavors {
         vialer {
-            applicationId = "com.voipgrid.vialer"
+            applicationId "com.voipgrid.vialer"
             copy {
                 from 'src/vialer/'
                 include '*.json'
@@ -26,9 +30,17 @@ android {
             }
         }
         voys {
-            applicationId = "com.voys.app"
+            applicationId "com.voys.app"
             copy {
                 from 'src/voys/'
+                include '*.json'
+                into '.'
+            }
+        }
+        verbonden {
+            applicationId "com.verbonden.app"
+            copy {
+                from 'src/verbonden/'
                 include '*.json'
                 into '.'
             }
@@ -51,8 +63,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.0'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:multidex:1.0.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     // Modules.
     compile project(':pjsip')
     compile project(':googlelockring')
