@@ -1,0 +1,13 @@
+Verbeteringen
+-Contacten zoeken is mogelijk bij >750 contacten
+-Gesprek kan nu worden geannuleerd
+-In het nummerveld van de dialer kan worden geplakt
+-Lijst met recente gesprekken toont namen bij bekende nummers
+-Automatische terugkeer in de dialer na gesprek
+-Betere realtime synchronisatie van contacten
+-Contacten zonder foto krijgen een letter
+-Het resetten van je wachtwoord is verbeterd
+
+Bugfixes
+-Geen dubbele contacten meer
+-Verkeerd nummer bij bellen vanuit recente gesprekken lijst opgelost

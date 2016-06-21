@@ -1,0 +1,8 @@
+Improvements:
+- Enabled search in dialer for more than 750 contacts;
+- Ability to cancel a two step call;
+- Ability to paste in the number field of the dialer;
+- Added information why we need your mobile number.
+
+Bugfixes:
+- Fixed a rare case where duplicate contacts were created.

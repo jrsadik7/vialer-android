@@ -1,0 +1,14 @@
+Connectivity check on incoming call
+Improved Click to dial flow
+Improved keypad
+Ringback tone
+Google Analytics
+Improved call quality
+Improved Sip service flow and handling
+Start call from the contacts app
+Crash after password change in portal
+Crash when enabling airplane mode
+App handles notifications when it shouldn't
+Crash login user without phoneaccount
+
+Feedback mag naar peter.eigenraam@wearespindle.com (of via slack #vialer_bugs)

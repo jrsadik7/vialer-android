@@ -1,0 +1,10 @@
+Welkom bij de Beta!
+In versie 37 hebben we het volgende toegevoegd/verbeterd: 
+
+- Toegevoegd dat je swipen kan om een telefoontje te accepteren wanneer je telefoon gelocked is.
+- Scherm op zwart vebeterd wanneer je met het bellen je telefoon naar je oor brengt.
+- Knop toegevoegd om te bellen van uit de recente gesprekken lijst.
+
+Voor vragen of opmerkingen kan contact worden opgenomen via beta@vialerapp.com
+
+Veel plezier in de beta!

@@ -1,0 +1,9 @@
+Welkom bij de Beta!
+
+In versie 38 hebben we het volgende toegevoegd/verbeterd: 
+
+- Tijdens het starten van de app kwam het soms voor dat je het logo door het login venster te zien was. Dit is nu opgelost.
+
+Voor vragen of opmerkingen kan contact worden opgenomen via beta@vialerapp.com
+
+Veel plezier in de beta!

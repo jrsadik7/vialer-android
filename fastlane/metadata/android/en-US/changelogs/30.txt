@@ -1,0 +1,14 @@
+Improvements
+-Enabled search in dialer for >750 contacts
+-Ability to cancel a call
+-Ability to paste in the number field of the dialer
+-Recents now shows names for known contacts
+-Automatically return to dialer after a call
+-Contacts without a picture now have a letter as picture
+-Improved realtime syncing of contacts
+-Added information why we need your mobile number
+-Improved password reset
+
+Bugfixes
+-Fixed a case where duplicate contacts were created
+-Fixed calling the wrong number from recent

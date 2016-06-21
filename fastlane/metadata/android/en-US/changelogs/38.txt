@@ -1,0 +1,8 @@
+Welcome to the Beta!
+
+For beta 38 we changed/improved the following:
+- When starting the app it was possible that the logo screen and the login screen where both visible at the same time. We have fixed that in this beta version
+
+Do not hesitate to contact us with questions or suggestions at beta@vialerapp.com
+
+Happy beta testing!

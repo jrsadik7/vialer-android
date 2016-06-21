@@ -1,0 +1,6 @@
+Verbeteringen:
+- Contacten zoeken in de dialer kan nu nog sneller en slimmer. De T9-functionaliteit is verbeterd en zoeken werkt met en zonder landcode (+XX1234567 of 01234567).
+- De knop in de contactenlijst waarmee de app direct kon worden geopend, is verwijderd. Hierdoor zijn dubbele contacten verleden tijd (herinstalleren van de app is hiervoor noodzakelijk).
+
+Bugfixes:
+- De app crasht niet meer als we vragen om de contacten permissie op Android 6.

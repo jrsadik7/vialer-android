@@ -1,0 +1,12 @@
+Yes, het moment is daar: een complete make-over voor de app!
+
+Verbeteringen:
+- Nieuwe interface
+- Voorbereidingen op bellen via je internetverbinding
+- Je bereikbaarheid is zichtbaar en aan te passen in de app
+- De statistiekenpagina is beter te bekijken op mobiel
+- Tijdens het bellen is de status van het gesprek zichtbaar op je scherm
+
+Bugfixes:
+- 'Recente gesprekken' bevat meer informatie
+- Een nummer kiezen uit de recente gesprekken of uit de contactenlijst zal nu direct een gesprek opzetten

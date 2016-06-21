@@ -1,0 +1,2 @@
+- Vanuit login en menu is"Hoe werkt Vialer" view te openen
+- Mobiele nummer is aan te passen via Settings / Account view vanuit menu

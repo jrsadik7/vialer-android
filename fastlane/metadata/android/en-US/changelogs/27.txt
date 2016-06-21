@@ -1,0 +1,12 @@
+Yes, we did it, a complete redesign of the app!
+
+Improvements:
+- New interface and icon
+- Preparations for calling over your internet connection
+- Availability is visible and can be changed in the app
+- The stats page is more mobile friendly now
+- During calling, the status of the call is shown on the screen
+
+Bugfixes:
+- The recents contains more information on who called and if the call was incoming or not
+- Picking a number from recents or contacts will immediately setup a call with the app

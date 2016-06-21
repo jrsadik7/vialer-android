@@ -1,0 +1,10 @@
+Welcome to the Beta!
+
+For version 37 we changed the following:
+- Added swipe to accept calls when your phone is locked.
+- Fixed the function when you bring the phone to your ear when making a call.
+- Added a button to call from the recents.
+
+Do not hesitate to contact us with questions or suggestions at beta@vialerapp.com
+
+Happy beta testing!

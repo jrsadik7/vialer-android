@@ -1,0 +1,8 @@
+Verbeteringen:
+- Contacten zoeken is mogelijk met meer dan 750 contacten;
+- Mogelijkheid om een twee staps gesprek te annuleren;
+- Mogelijkheid om te plakken in het nummer veld van de dialer;
+- Informatie toegevoegd over waarom we je mobiele nummer nodig hebben.
+
+Bugfixes:
+- In sommige situaties werden er dubbele contacten aangemaakt.

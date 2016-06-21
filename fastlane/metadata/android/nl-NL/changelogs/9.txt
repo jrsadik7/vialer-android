@@ -1,0 +1,3 @@
+Ziehier, de eerste versie van Vialer die we met een beperkt publiek willen delen! De app kent een aantal basisfunctionaliteiten die nieuw zijn sinds de vorige versie: Bellen en gebeld via VoIP over 4G/Wifi.
+
+Feedback mag naar peter.eigenraam@wearespindle.com (of via slack #vialer_bugs)

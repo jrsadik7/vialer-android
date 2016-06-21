@@ -1,0 +1,4 @@
+Updated contact sync
+Android 6.0 compatible permissions
+Availability in menu
+Loads of minor improvements

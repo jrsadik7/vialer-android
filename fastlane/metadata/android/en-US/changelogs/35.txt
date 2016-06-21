@@ -1,0 +1,6 @@
+Improvements:
+- Looking for contacts in the dialer is made faster and smarter. The T9 functionality has been improved and search now works with and without country code (+xx1234567 or 01234567). 
+- The button in the contact list with which the app could be opened directly, has been removed. As a result, there will be no more duplicate contacts (re-installing the app is necessary for this).
+
+Bugfixes:
+- The app no longer crashes when we ask for the contacts permission on Android 6.

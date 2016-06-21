@@ -1,0 +1,8 @@
+Verbeteringen
+- Contacten zoeken is mogelijk bij meer dan 750 contacten;
+- Mogelijkheid om een twee-staps-gesprek te annuleren;
+- Mogelijkheid om iets te plakken in het nummerveld van de dialer;
+- Lijst met recente gesprekken toont nu ook namen;
+- Vetgedrukte namen en nummers waar op gezocht wordt;
+- Realtime synchronisatie van contacten;
+- Contacten zonder foto hebben nu een afbeelding met de eerste letter van hun naam;

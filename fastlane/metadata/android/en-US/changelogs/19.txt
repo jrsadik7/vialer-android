@@ -1,0 +1,6 @@
+- Alle contacten standaard zichtbaar in dialpad weergave
+- Menu iconen toegevoegd
+- Bellen vanuit native contacten app opent dialpad weergave ipv direct een call opzetten
+- Hardware back button stopt ook de call vanuit call weergave
+- Fix voor disconnect bij on hold knop
+- Fix voor probleem met scrollen in recents lijst

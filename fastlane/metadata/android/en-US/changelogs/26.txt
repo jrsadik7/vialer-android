@@ -1,0 +1,1 @@
+Changed behavior for large contact set (750+ contacts).

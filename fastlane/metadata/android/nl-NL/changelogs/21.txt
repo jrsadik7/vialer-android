@@ -1,0 +1,10 @@
+- Ongebruikte codecs verwijderd
+- Informatie knop en view toegevoegd in onboarding
+- Informatie view toegevoegd vanuit menu
+- Belplan, beschikbaarheid verwijderd van menu
+- Account hernoemd naar Instellingen
+- Extra opties toegevoegd aan instellingen scherm
+- Extra feedback Click to dial toegevoegd
+- Verbeterde meldingen voor gebruikers zonder Voip permissie
+- Informatie menu icon toegevoegd
+- App gebruiken zonder Voip permissie

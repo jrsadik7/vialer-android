@@ -1,0 +1,4 @@
+Onderdrukt nummer als anoniem weergeven
+Removed appname from startscreen
+Improved T9 functionality
+Fix for placeholderview behind call records

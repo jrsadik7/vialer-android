@@ -1,0 +1,5 @@
+- Verbeterde Click to dial weergave
+- Connectivity check op inkomend gesprek
+- Partner user kan geen gebruik meer maken van de app
+- DTMF tones via keypad
+- Verbeterde weergave waarschuwing verbinding en connect AB

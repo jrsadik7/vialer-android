@@ -1,0 +1,7 @@
+- Replaced call record tab icons by text labels
+- Loading recents with cached data
+- Improved PJSIP stability on pre Lollipop devices
+- Translations added when phonenumber is supressed
+- Disabled landscape view for Settings
+- Removed app title from onboarding start screen
+- Added extra icon state for incoming and incomming missed call records

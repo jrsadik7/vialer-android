@@ -1,0 +1,3 @@
+- Go to screen
+- Keyboard can be swiped away when not needed
+- Various bug fixes
