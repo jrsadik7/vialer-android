@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -73,7 +75,6 @@ public class NumberInputView extends RelativeLayout implements
                     mEditText.setCursorVisible(true);
                 }
                 break;
-
         }
     }
 
@@ -135,6 +136,25 @@ public class NumberInputView extends RelativeLayout implements
             } else {
                 removeTextFromInput(startCursorPosition - 1, endCursorPosition);
             }
+        }
+        setCorrectFontSize(false);
+    }
+
+    public void setCorrectFontSize(boolean characterAdded) {
+        if (characterAdded) {
+            Log.d("DEBUG", "added");
+        } else {
+            Log.d("DEBUG", "rm");
+        }
+        int charCount = mEditText.getText().length();
+        float charSize = mEditText.getTextSize();config
+        if (charCount > 14) {
+            if (characterAdded) {
+                charSize = float(charSize*(1.05*(charCount-14)));
+            } else {
+                Log.d("DEBUG", "rm");
+            }
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, charSize, getResources().getDisplayMetrics());
         }
     }
 
