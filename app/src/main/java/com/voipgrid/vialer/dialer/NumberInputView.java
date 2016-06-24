@@ -25,6 +25,9 @@ public class NumberInputView extends RelativeLayout implements
     private EditText mEditText;
     private ImageButton mRemoveButton;
     private OnInputChangedListener mListener;
+    private final int mNormalPhoneNumberLengthMax = 13;
+
+    private float mDefaultTextsize;
 
     public NumberInputView(Context context) {
         super(context);
@@ -56,6 +59,9 @@ public class NumberInputView extends RelativeLayout implements
         mRemoveButton = (ImageButton) findViewById(R.id.remove_button);
         mRemoveButton.setOnClickListener(this);
         mRemoveButton.setOnLongClickListener(this);
+
+        mEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.dialpad_number_input_text_size));
+        mDefaultTextsize = mEditText.getTextSize();
     }
 
     public void setOnInputChangedListener(OnInputChangedListener listener) {
@@ -137,26 +143,23 @@ public class NumberInputView extends RelativeLayout implements
                 removeTextFromInput(startCursorPosition - 1, endCursorPosition);
             }
         }
-        setCorrectFontSize(false);
+        setCorrectFontSize();
     }
 
-    public void setCorrectFontSize(boolean characterAdded) {
-        if (characterAdded) {
-            Log.d("DEBUG", "added");
-        } else {
-            Log.d("DEBUG", "rm");
-        }
+    public void setCorrectFontSize() {
         int charCount = mEditText.getText().length();
-        float charSize = mEditText.getTextSize();config
-        if (charCount > 14) {
-            if (characterAdded) {
-                charSize = float(charSize*(1.05*(charCount-14)));
-            } else {
-                Log.d("DEBUG", "rm");
+        float charSize = mDefaultTextsize;
+
+        if (charCount > mNormalPhoneNumberLengthMax) {
+            for (int i = charCount; i > mNormalPhoneNumberLengthMax; i--) {
+                charSize = charSize / 1.02f;
             }
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, charSize, getResources().getDisplayMetrics());
         }
-    }
+        mEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, charSize);
+
+        Log.d("DEBUG", "set charsize "+ charSize);
+
+        }
 
     /**
      * Add text to the number input field
