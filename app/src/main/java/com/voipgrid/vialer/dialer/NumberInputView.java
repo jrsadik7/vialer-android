@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,13 +151,10 @@ public class NumberInputView extends RelativeLayout implements
 
         if (charCount > mNormalPhoneNumberLengthMax) {
             for (int i = charCount; i > mNormalPhoneNumberLengthMax; i--) {
-                charSize = charSize / 1.02f;
+                charSize = charSize / 1.03f;
             }
         }
         mEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, charSize);
-
-        Log.d("DEBUG", "set charsize "+ charSize);
-
         }
 
     /**
