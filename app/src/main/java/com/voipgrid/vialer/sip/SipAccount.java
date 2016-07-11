@@ -26,8 +26,6 @@ class SipAccount extends org.pjsip.pjsua2.Account {
         mCallStatus = callStatus;
         /* This automatically registers to the server */
         create(accountConfig);
-
-
     }
 
     /**
